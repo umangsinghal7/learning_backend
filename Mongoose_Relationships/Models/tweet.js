@@ -10,19 +10,19 @@ mongoose.connect('mongodb://localhost:27017/relationshipDemo', { useNewUrlParser
         console.log(err)
     })
 
-const userSchema = new Schema({
-    username: String,
+const userSchema = new Schema({                     //creating a user schema to reference in the tweet schema
+    username: String,                           
     age: Number
 })
 
-const tweetSchema = new Schema({
+const tweetSchema = new Schema({                        //creating a tweet schema that has a reference to the user schema so we can associate tweets with users
     text: String,
     likes: Number,
     user: { type: Schema.Types.ObjectId, ref: 'User' }                  //reference to User model
 })
 
-const User = mongoose.model('User', userSchema);
-const Tweet = mongoose.model('Tweet', tweetSchema);
+const User = mongoose.model('User', userSchema);                    //creating the User model so we can reference it in the tweet schema
+const Tweet = mongoose.model('Tweet', tweetSchema);                 //creating the Tweet model so we can create tweets and reference users in them
 
 // const makeTweets = async () => {
 //     // const user = new User({ username: 'chickenfan99', age: 61 });

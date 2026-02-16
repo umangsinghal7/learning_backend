@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     ]
 })
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);       // this is the model that we will use to interact with the users collection in the database
 
 const makeUser = async () => {
     const u = new User({
