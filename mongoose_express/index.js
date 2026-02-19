@@ -3,6 +3,8 @@ const express  = require('express');
 const app = express();
 const path = require ('path');
 const port = 3000;
+const expresssession = require('express-session');
+const flash = require('connect-flash');
 
 const methodOverride = require('method-override');
 
@@ -28,6 +30,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+const options = { secret: 'open', resave: false, saveUninitialized: true };
+app.use(expresssession(options));
+app.use(flash());  //flash should be used after session
+
 //FARM ROUTES
 app.get('/farms', async (req, res) => {
     const farms = await Farm.find({});
@@ -52,6 +58,7 @@ app.get('/farms/new', (req, res) => {
 app.post('/farms', async (req, res) => {
     const farm = new Farm(req.body);
     await farm.save();
+    req.flash('success', 'Successfully made a new farm!');
     res.redirect('/farms');
 });
 
@@ -75,6 +82,10 @@ app.post('/farms/:id/products', async (req, res) => {
 
 //PRODUCT ROUTES
 
+app.use((req, res, next) => {
+    res.locals.messages = req.flash('success');
+    next();
+});
 
 app.get('/products', async (req, res) => {
     const { category } = req.query;
@@ -94,7 +105,8 @@ app.get('/products/new', (req, res) =>  {
 app.post('/products', async (req, res) => {
     const newProduct = new Product(req.body);
     await newProduct.save();
-    res.redirect(`/products/${newProduct._id}`);
+    req.flash('success', 'Successfully made a new product!');
+    res.redirect(`/products/${newProduct._id}` );
 })
 
 app.get('/products/:id', async (req, res) => {
