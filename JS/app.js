@@ -26,5 +26,24 @@ setTimeout(() => {
 // },2000);
 
 const arr = [1,2,3,4,5,6,7,8,9,10]
+const [nonnatural,firsteven,...sO_on] = arr;    //destructing array
+console.log(sO_on);
 
-arr.filter(x=>x.arr<10);
+arr.filter(x=>x.arr<10);                //filter
+
+
+
+function sum(){                             //arguments_object
+    console.log(arguments)
+}
+sum(2,3,4,5,6,7,8);
+
+function gym(gold,silver,...everyoneremain){            //rest_params
+    console.log('first prize goes to: ${gold}');
+    console.log('second prize goes to: ${silver}');
+    console.log('everyone prize goes to: ${everyoneremain}');
+}
+
+gym('umang','diya','ram','shyam','yug','rohan');
+
+
